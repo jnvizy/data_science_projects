@@ -1,9 +1,8 @@
 # Projet Bigdata
 <a style="color: black" href="http://andreiarion.github.io/Projet2018-intro.html#/">Lien pour plus d'informations sur le projet</a>
 ## But
-Analyser l’année 2018 via la base de données *GDELT* en utilisant le **tone**  des articles dans les medias des divers pays du monde
-
-## Questions à répondre 
+Analyser l’année 2018 via la base de données *GDELT* en utilisant le **ton**  des articles dans les medias des divers pays du mondeon
+## Questions à traiter 
 
 1. le nombre d’articles/evenements pour chaque (jour, pays de l’evenement, langue de l’article)
 2. pour un acteur(pays/organisation ...) ⇒ afficher les evenements qui y font reference
