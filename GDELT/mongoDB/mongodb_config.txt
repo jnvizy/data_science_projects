@@ -1,0 +1,118 @@
+
+#CONFIG SERVER
+Sur chaque serveur
+mongod --config /etc/mongocfg.conf
+
+mongo --port 27030
+
+rs.initiate(
+  {
+    _id: "cfg0",
+    configsvr: true,
+    members: [
+      { _id : 0, host : "master:27030" },
+      { _id : 1, host : "slave1:27030" },
+      { _id : 2, host : "slave2:27030" }
+    ]
+  }
+)
+
+Start all shards
+mongod --config /etc/mongosh1.conf
+mongod --config /etc/mongosh2.conf
+mongod --config /etc/mongosh3.conf
+mongod --config /etc/mongosh4.conf
+
+#SHARD1
+mongo --port 27041
+rs.initiate(
+  {
+    _id : "sh1",
+    members: [
+      { _id : 0, host : "master:27041" },
+      { _id : 1, host : "slave1:27041" },
+      { _id : 2, host : "slave2:27041" }
+    ]
+  }
+)
+
+#SHARD2
+mongo --port 27042
+rs.initiate(
+  {
+    _id : "sh2",
+    members: [
+      { _id : 0, host : "master:27042" },
+      { _id : 1, host : "slave1:27042" },
+      { _id : 2, host : "slave2:27042" }
+    ]
+  }
+)
+
+#SHARD3
+mongo --port 27043
+rs.initiate(
+  {
+    _id : "sh3",
+    members: [
+      { _id : 0, host : "master:27043" },
+      { _id : 1, host : "slave1:27043" },
+      { _id : 2, host : "slave2:27043" }
+    ]
+  }
+)
+
+#SHARD4
+mongo --port 27044
+rs.initiate(
+  {
+    _id : "sh4",
+    members: [
+      { _id : 0, host : "master:27044" },
+      { _id : 1, host : "slave1:27044" },
+      { _id : 2, host : "slave2:27044" }
+    ]
+  }
+)
+
+#MONGOS
+START on all servers
+mongos --config /etc/mongos.conf
+
+
+connect to mongos
+mongo --port 27020
+
+
+sh.addShard( "sh1/master:27041")
+sh.addShard( "sh2/master:27042")
+sh.addShard( "sh3/master:27043")
+sh.addShard( "sh4/master:27044")
+
+
+
+
+
+use tdenimal
+sh.enableSharding("tdenimal")
+
+
+#Si collection existante
+db.mentions_events.ensureIndex( { _id : "hashed" } )
+
+
+
+db.mentions_events.ensureIndex( { _id : "hashed" } )
+sh.shardCollection( "tdenimal.mentions_events", { "_id" : "hashed" } )
+
+
+db.mentions_events.getShardDistribution()
+
+
+
+
+db.query2.ensureIndex( { Actor1Name : 1 } )
+db.query2.ensureIndex( { Actor2Name : 1 } )
+
+
+
